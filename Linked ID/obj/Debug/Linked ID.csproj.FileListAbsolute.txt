@@ -1,0 +1,8 @@
+C:\Users\piotr\source\repos\Linked ID\Linked ID\bin\Debug\Linked ID.dll
+C:\Users\piotr\source\repos\Linked ID\Linked ID\bin\Debug\Linked ID.pdb
+C:\Users\piotr\source\repos\Linked ID\Linked ID\obj\Debug\Linked ID.dll
+C:\Users\piotr\source\repos\Linked ID\Linked ID\obj\Debug\Linked ID.pdb
+C:\Users\piotr\source\repos\Linked ID\Linked ID\obj\Debug\Linked ID.csprojAssemblyReference.cache
+C:\Users\piotr\source\repos\Linked ID\Linked ID\obj\Debug\Linked_ID.Scripts.Forms.Selected_ID.resources
+C:\Users\piotr\source\repos\Linked ID\Linked ID\obj\Debug\Linked_ID.Scripts.Forms.TypeID.resources
+C:\Users\piotr\source\repos\Linked ID\Linked ID\obj\Debug\Linked ID.csproj.GenerateResource.cache

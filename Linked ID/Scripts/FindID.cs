@@ -18,20 +18,23 @@ namespace Linked_ID.Scripts
 
     public class FindID : IExternalCommand
     {
-        
+        public Document linkedDocument;
+        public RevitLinkInstance linkInstance;
+
         public ICollection<Reference> linkedObjects(UIApplication uiapp)
         {
 
             return uiapp.ActiveUIDocument.Selection.PickObjects(ObjectType.LinkedElement, "Pick Objects");
         }
 
-        public static ElementId GetElementID(Reference refe, UIApplication uiapp)
+        public ElementId GetElementID(Reference refe, UIApplication uiapp)
         {
             Document doc = uiapp.ActiveUIDocument.Document;
 
             Element e = doc.GetElement(refe.ElementId);
-
+            linkInstance = e as RevitLinkInstance;
             Document link = (e as RevitLinkInstance).GetLinkDocument();
+            linkedDocument = link;
 
             Element eLinked = link.GetElement(refe.LinkedElementId);
 
@@ -50,8 +53,6 @@ namespace Linked_ID.Scripts
                 {
                     selected_ID.ShowDialog();
                 }
-
-            
 
             return Result.Succeeded;
         }

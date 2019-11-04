@@ -9,6 +9,7 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Selection;
 using System.Windows;
+using Linked_ID.Scripts.Forms;
 
 namespace Linked_ID.Scripts
 {
@@ -17,39 +18,61 @@ namespace Linked_ID.Scripts
 
     class FindByID : IExternalCommand
     {
+        public Document linkedDocument;
+        public RevitLinkInstance linkInstance;
+        /*
+        public Document linkedModel(UIApplication uiapp)
+        {
+            Reference reference = uiapp.ActiveUIDocument.Selection.PickObject(ObjectType.Element);
+            Element element = uiapp.ActiveUIDocument.Document.GetElement(reference);
+            
+            return 
+        }
+        */
+        public ElementId GetElementID(Reference refe, UIApplication uiapp)
+        {
+            Document doc = uiapp.ActiveUIDocument.Document;
+
+            Element e = doc.GetElement(refe.ElementId);
+            linkInstance = e as RevitLinkInstance;
+            Document link = (e as RevitLinkInstance).GetLinkDocument();
+            linkedDocument = link;
+
+            Element eLinked = link.GetElement(refe.LinkedElementId);
+
+            ElementId linkedElementId = eLinked.Id;
+
+            return linkedElementId;
+        }
+
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             UIApplication uiapp = commandData.Application;
             Document doc = uiapp.ActiveUIDocument.Document;
 
-            try
+            Reference reference = uiapp.ActiveUIDocument.Selection.PickObject(ObjectType.Element);
+            Element element = uiapp.ActiveUIDocument.Document.GetElement(reference);
+            
+            
+            if (element.GetType().Name == "RevitLinkInstance")
             {
-                Reference refe = uiapp.ActiveUIDocument.Selection.PickObject(ObjectType.LinkedElement, "Pick Object");
+                linkedDocument = (element as RevitLinkInstance).GetLinkDocument();
 
-                Element e = doc.GetElement(refe.ElementId);
-
-                Document link = (e as RevitLinkInstance).GetLinkDocument();
-
-                Element eLinked = link.GetElement(refe.LinkedElementId);
-
-                ElementId linkedElementId = eLinked.Id;
-
-                TaskDialog.Show("Linked Element ID", linkedElementId.ToString() + " - Added to clipboard");
-
-                Clipboard.SetText(linkedElementId.ToString());
-
-
+                using ( TypeID typeID = new TypeID(uiapp))
+                {
+                    typeID.ShowDialog();
+                }
             }
-            catch (Autodesk.Revit.Exceptions.OperationCanceledException)
+            else
             {
-                return Result.Cancelled;
+                TaskDialog.Show("Error", "Please Select Target Linked Model");
             }
-            catch (Exception ex)
+            /*
+            using (Selected_ID selected_ID = new Selected_ID(uiapp))
             {
-                message = ex.Message;
-                TaskDialog.Show("Error", message);
-                return Result.Failed;
+                selected_ID.ShowDialog();
             }
+            */
             return Result.Succeeded;
         }
 

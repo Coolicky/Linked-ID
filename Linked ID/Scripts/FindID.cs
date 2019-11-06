@@ -48,13 +48,21 @@ namespace Linked_ID.Scripts
             UIApplication uiapp = commandData.Application;
             Document doc = uiapp.ActiveUIDocument.Document;
 
-                        
-                using (Selected_ID selected_ID = new Selected_ID(uiapp))
+            try
+            {
+            ICollection<Reference> references = linkedObjects(uiapp);            
+
+                using (Selected_ID selected_ID = new Selected_ID(uiapp, references))
                 {
                     selected_ID.ShowDialog();
                 }
 
             return Result.Succeeded;
+            }
+            catch
+            {
+                return Result.Cancelled;
+            }
         }
     }
 }

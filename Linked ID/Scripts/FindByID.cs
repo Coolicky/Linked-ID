@@ -50,30 +50,38 @@ namespace Linked_ID.Scripts
             UIApplication uiapp = commandData.Application;
             Document doc = uiapp.ActiveUIDocument.Document;
 
-            Reference reference = uiapp.ActiveUIDocument.Selection.PickObject(ObjectType.Element);
-            Element element = uiapp.ActiveUIDocument.Document.GetElement(reference);
-            
-            
-            if (element.GetType().Name == "RevitLinkInstance")
+            try
             {
-                linkedDocument = (element as RevitLinkInstance).GetLinkDocument();
+                Reference reference = uiapp.ActiveUIDocument.Selection.PickObject(ObjectType.Element);
+                Element element = uiapp.ActiveUIDocument.Document.GetElement(reference);
 
-                using ( TypeID typeID = new TypeID(uiapp))
+                if (element.GetType().Name == "RevitLinkInstance")
                 {
-                    typeID.ShowDialog();
+                    linkedDocument = (element as RevitLinkInstance).GetLinkDocument();
+
+                    using (TypeID typeID = new TypeID(uiapp, linkedDocument))
+                    {
+                        typeID.ShowDialog();
+                    }
                 }
+                else
+                {
+                    TaskDialog.Show("Error", "Please Select Target Linked Model");
+                }
+                /*
+                using (Selected_ID selected_ID = new Selected_ID(uiapp))
+                {
+                    selected_ID.ShowDialog();
+                }
+                */
+                return Result.Succeeded;
             }
-            else
+            catch
             {
-                TaskDialog.Show("Error", "Please Select Target Linked Model");
+                return Result.Cancelled;
             }
-            /*
-            using (Selected_ID selected_ID = new Selected_ID(uiapp))
-            {
-                selected_ID.ShowDialog();
-            }
-            */
-            return Result.Succeeded;
+            
+
         }
 
     }

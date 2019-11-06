@@ -23,14 +23,17 @@ namespace Linked_ID.Scripts.Forms
         BoundingBoxXYZ OriginalBoundingBox;
         bool OriginalViewCropped;
 
+        Document linkDoc;
+
         public TypeID()
         {
             InitializeComponent();
         }
-        public TypeID(UIApplication uiapp)
+        public TypeID(UIApplication uiapp, Document lnk)
         {
             InitializeComponent();
 
+            linkDoc = lnk;
             uiApp = uiapp;
 
             OriginalBoundingBox = GetOriginalBox();
@@ -101,20 +104,27 @@ namespace Linked_ID.Scripts.Forms
         private void B_OK_Click(object sender, EventArgs e)
         {
             listBox1.Items.Clear();
-
-            if (textBox1.Text.Length < 1)
-                TaskDialog.Show("Error", "Please type in some ID's");
-            else
-            {
-                string[] ids = textBox1.Text.Split(';');
-            }
-            
-            foreach (var id )
-
+            AddIDstoList(textBox1.Text);
+            textBox1.Text = "";
         }
 
         private void B_Import_Click(object sender, EventArgs e)
         {
+
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Text File|*.txt";
+            openFileDialog.ShowDialog();
+
+            string importedText;
+
+            if (openFileDialog.FileName != "")
+            {
+                listBox1.Items.Clear();
+
+                importedText = System.IO.File.ReadAllText(openFileDialog.FileName);
+
+                AddIDstoList(importedText);
+            }
 
         }
 
@@ -123,6 +133,45 @@ namespace Linked_ID.Scripts.Forms
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != ';'))
             {
                 e.Handled = true;
+            }
+        }
+
+        private void AddIDstoList(string listOfID)
+        {
+            if (listOfID.Length < 1)
+                TaskDialog.Show("Error", "Please type in some ID's");
+            else
+            {
+                string[] ids = listOfID.Split(';');
+                foreach (var id in ids)
+                {
+                    int idNumber;
+                    int.TryParse(id, out idNumber);
+
+                    ElementId elemId = new ElementId(idNumber);
+                    if (idNumber != 0)
+                        listBox1.Items.Add(elemId);
+                }
+
+            }
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listBox1.SelectedItem != null || listBox1.SelectedItem.ToString() != "You have not selected any Elements")
+            {
+                ElementId id = listBox1.SelectedItem as ElementId;
+                var list = new List<ElementId>();
+                list.Add(id);
+                                
+                if (list.Count > 0)
+                {
+                    Element element = new FilteredElementCollector(linkDoc, list).WhereElementIsNotElementType().ElementAt(0);
+
+                    BoundingBoxXYZ boundingBoxXYZ = element.get_BoundingBox(null);
+                    SetSectionBox(boundingBoxXYZ, true);
+                }
+                
             }
         }
     }

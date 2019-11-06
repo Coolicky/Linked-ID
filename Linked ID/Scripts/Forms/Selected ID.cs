@@ -33,7 +33,7 @@ namespace Linked_ID.Scripts.Forms
             
         }
 
-        public Selected_ID(UIApplication uiapp)
+        public Selected_ID(UIApplication uiapp, ICollection<Reference> refe)
         {
             uiApp = uiapp;
             InitializeComponent();
@@ -46,7 +46,7 @@ namespace Linked_ID.Scripts.Forms
             findID = new FindID();
 
 
-            references = findID.linkedObjects(uiapp);
+            references = refe;
 
             if (references.Count < 1)
             {

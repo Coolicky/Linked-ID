@@ -18,18 +18,20 @@ namespace Linked_ID
 
             string this_assembly_path = Assembly.GetExecutingAssembly().Location;
 
-            PushButtonData selectBD = new PushButtonData("Hide Selection in View", "Hide\nSelection", this_assembly_path, "Coolicky_Plugins.HideInView");
-            
-            selectBD.ToolTip = "Hide Selection in View";
-            BitmapImage pb_hide_image = 
-            selectBD.LargeImage = new BitmapImage(new Uri("pack://application:,,,/Coolicky_Plugins;component/Resources/Hide.png"));
+            PushButtonData selectBD = new PushButtonData("FindID", "Find IDs", this_assembly_path, "Linked_ID.Scripts.FindID");
+            selectBD.ToolTip = "Find IDs of Objects in Linked Model";
+            selectBD.LargeImage = new BitmapImage(new Uri("pack://application:,,,/Linked ID;component/Images/Link_Icon_Find.png"));
 
-
+            PushButtonData findBD = new PushButtonData("FindbyID", "Find by IDs", this_assembly_path, "Linked_ID.Scripts.FindByID");
+            findBD.ToolTip = "Find Objects in a Linked Model by Their ID";
+            findBD.LargeImage = new BitmapImage(new Uri("pack://application:,,,/Linked ID;component/Images/Link_Icon_Search.png"));
 
             SplitButtonData splitButtonData = new SplitButtonData("LinkedID", "Linked ID");
+            splitButtonData.LargeImage = new BitmapImage(new Uri("pack://application:,,,/Linked ID;component/Images/Link_Icon_Main.png"));
             SplitButton splitButton = ribbon_panel_tools.AddItem(splitButtonData) as SplitButton;
 
-            PushButton selectB = ribbon_panel_tools.AddItem(selectBD) as PushButton;
+            splitButton.AddPushButton(selectBD);
+            splitButton.AddPushButton(findBD);
 
         }
         public Result OnShutdown(UIControlledApplication application)
@@ -45,4 +47,4 @@ namespace Linked_ID
         }
     }
 }
-}
+

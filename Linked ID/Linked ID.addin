@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<RevitAddIns>
+
+  <AddIn Type="Application">
+
+    <Name>Linked ID</Name>
+
+    <FullClassName>Linked_ID.LinkedID</FullClassName>
+
+    <Text>Linked ID</Text>
+
+    <Description>Find and Search By ID in Linked Model</Description>
+
+    <VisibilityMode>AlwaysVisible</VisibilityMode>
+
+    <Assembly>Linked ID.dll</Assembly>
+
+    <AddInId>458c790e-72ec-4861-bfd1-e810cd07c1a0</AddInId>
+
+    <VendorId>Coolicky</VendorId>
+
+    <VendorDescription>https://github.com/Coolicky</VendorDescription>
+
+  </AddIn>
+
+</RevitAddIns>

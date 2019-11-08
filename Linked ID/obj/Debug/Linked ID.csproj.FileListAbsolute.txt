@@ -14,3 +14,4 @@ C:\Users\piotr\Source\Repos\Coolicky\Linked-ID\Linked ID\obj\Debug\Linked ID.dll
 C:\Users\piotr\Source\Repos\Coolicky\Linked-ID\Linked ID\obj\Debug\Linked ID.pdb
 C:\Users\piotr\Source\Repos\Coolicky\Linked-ID\Linked ID\bin\Debug\Linked ID.dll
 C:\Users\piotr\Source\Repos\Coolicky\Linked-ID\Linked ID\bin\Debug\Linked ID.pdb
+C:\Users\piotr\Source\Repos\Coolicky\Linked-ID\Linked ID\obj\Debug\Linked ID.g.resources
